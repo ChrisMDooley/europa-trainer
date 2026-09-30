@@ -1,0 +1,3 @@
+{ "name": "Europa-Trainer", "short_name": "Europa", "start_url": "./", "display": "standalone",
+  "background_color": "#FBF5EC", "theme_color": "#FBF5EC", "lang": "de",
+  "icons": [{ "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }] }

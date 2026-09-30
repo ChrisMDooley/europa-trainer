@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Europa-Trainer · Robin's Bobins</title>
+<meta name="description" content="Länder, Hauptstädte, Meere, Flüsse und Gebirge Europas – für die Europa-Arbeit.">
+<meta name="theme-color" content="#FBF5EC">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="css/europa.css">
+</head>
+<body>
+<div class="shell">
+  <header class="bar">
+    <span class="bar-left">
+      <a class="link" id="apps-link" href="#">‹ Meine Apps</a>
+      <button class="link" id="back" type="button" hidden>‹ Zurück</button>
+    </span>
+    <span class="wordmark">🌍 Europa-<b>Trainer</b></span>
+    <span class="bar-right">
+      <span class="coin-pill" id="coin-pill" hidden title="Robin-Münzen"><span class="et-coin" aria-hidden="true"></span><span id="coins">0</span></span>
+      <a class="link small" id="parent-link" href="#/eltern">Eltern</a>
+    </span>
+  </header>
+  <main id="main" aria-live="polite"></main>
+</div>
+<noscript>Europa-Trainer braucht JavaScript.</noscript>
+
+<!-- Robin's Bobins (optional). Same site on GitHub Pages → family PIN, child, Robin, streaks.
+     When these files are missing (running on its own), the app works without them. -->
+<script src="../robins-bobins/shared/rb.js"></script>
+<script src="../robins-bobins/shared/robin.js"></script>
+
+<!-- data -->
+<script src="data/curriculum.js"></script>
+<script src="data/map.js"></script>
+<!-- logic (no DOM) -->
+<script src="js/speech.js"></script>
+<script src="js/spelling.js"></script>
+<script src="js/model.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/questions.js"></script>
+<script src="js/session.js"></script>
+<!-- screens -->
+<script src="js/platform.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/mapview.js"></script>
+<script src="js/practice.js"></script>
+<script src="js/screens.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
