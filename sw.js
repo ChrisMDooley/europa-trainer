@@ -1,6 +1,6 @@
 /* sw.js — Europa-Trainer offline cache. Network first (updates arrive), cache as fallback.
    Bump VERSION on every release. */
-const VERSION = 'europa-v1.1.0';
+const VERSION = 'europa-v1.2.0';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'css/europa.css', 'icons/icon.svg',
   'data/curriculum.js', 'data/map.js',
   'js/speech.js', 'js/spelling.js', 'js/model.js', 'js/progress.js', 'js/questions.js', 'js/session.js',

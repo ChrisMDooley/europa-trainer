@@ -184,7 +184,7 @@
       var inp = h('input', { type: 'password', inputmode: 'numeric', class: 'type-in pin', 'aria-label': 'Eltern-PIN' });
       var m = h('p', { class: 'hint' });
       var go = function () { if (P.parentCheck(inp.value)) { app.parentOk = true; parent(app); } else { m.textContent = 'Die PIN stimmt nicht.'; inp.value = ''; } };
-      app.setView(h('section', { class: 'pin-screen' }, [h('h1', { class: 'screen-h', text: 'Elternbereich' }), h('p', { text: 'Bitte die Eltern-PIN von Robin’s Bobins eingeben.' }),
+      app.setView(h('section', { class: 'pin-screen' }, [h('h1', { class: 'screen-h', text: 'Elternbereich' }), h('p', { text: P.guest ? 'Bitte die Eltern-PIN eingeben.' : 'Bitte die Eltern-PIN von Robin’s Bobins eingeben.' }),
         h('div', { class: 'type-row' }, [inp, h('button', { class: 'btn primary', type: 'button', text: 'Öffnen', onclick: go })]), m]), { back: true });
       inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') go(); });
       inp.focus();
@@ -202,7 +202,7 @@
           return h('div', { class: 'ov-row' }, [h('span', { class: 'ov-l', text: o.label }), U.bar(o.v.sure, o.v.total, o.v.seen), h('span', { class: 'ov-n', text: o.v.sure + ' / ' + o.v.total + ' sicher' })]);
         })),
         h('h3', { text: 'Problemstellen' }),
-        probs.length ? h('ul', { class: 'probs' }, probs.map(function (p) { return h('li', { text: pr.problemLabel(p) }); })) : h('p', { class: 'note', text: 'Noch keine – erst wenn Lukas geübt hat.' }),
+        probs.length ? h('ul', { class: 'probs' }, probs.map(function (p) { return h('li', { text: pr.problemLabel(p) }); })) : h('p', { class: 'note', text: 'Noch keine – erst wenn ' + P.childName + ' geübt hat.' }),
         h('p', { class: 'note', text: 'Neu eingeführt: ' + (pr.introducedGroups().map(function (g) { return M.groupOf[g].title; }).join(', ') || '–') +
           ' · noch offen: ' + pr.pendingGroups().length + ' Gruppen · ' + pr.doc.sessions.length + ' Runden geübt' })]),
       h('div', { class: 'panel' }, [h('h2', { text: 'Europa-Arbeit' }),
@@ -228,7 +228,7 @@
         h('label', { class: 'field' }, ['Stimme: ', voiceSelect()]),
         h('label', { class: 'field' }, ['Langsam-Tempo: ', slowSelect()])]),
       h('div', { class: 'panel' }, [h('h2', { text: 'Zurücksetzen' }),
-        h('p', { class: 'note', text: 'Löscht Lukas’ Lernstand in Europa-Trainer. Einstellungen und Robin-Münzen bleiben.' }),
+        h('p', { class: 'note', text: 'Löscht den Lernstand von ' + P.childName + ' in Europa-Trainer. Einstellungen und Robin-Münzen bleiben.' }),
         h('button', { class: 'btn soft', type: 'button', text: 'Lernstand löschen', onclick: function () { if (confirm('Lernstand wirklich löschen?')) { pr.reset(); parent(app); } } })])
     ]);
     function dateInput() {

@@ -79,4 +79,12 @@ Loose coupling, on purpose:
   *Prüfung üben* pays 1 per right answer + 8. Nothing is ever taken away. Running alone there are no coins.
 - Progress: `localStorage['europa-trainer:<child>']`, on this device/browser.
 
+## Guest link (a classmate)
+
+`…/europa-trainer/?gast=<Name>` runs the app on its own for that child: no Robin's Bobins, no family
+PIN, no "Meine Apps". Progress (`europa-trainer:gast-<name>`) and a coin counter stay on that device;
+the guest is remembered there, so the home-screen icon works without the link. A parent PIN for a
+guest is listed in `js/platform.js` (`GUEST_PINS`) as salted hashes only — no names or PINs in the code.
+Test: `ET_GUEST_PIN=<pin> python3 tests/e2e.py <shots-dir> --with-platform ../robins-bobins`.
+
 Map data: Natural Earth (public domain).

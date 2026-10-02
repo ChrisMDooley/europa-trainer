@@ -373,6 +373,42 @@ with sync_playwright() as p:
         bk = pg.evaluate("Object.keys(RB.backup.exportAll().data)")
         check('family backup includes Europa progress', 'europa-trainer:lukas' in bk, bk)
 
+    # ---------------- guest link (a classmate): no family page, no family PIN, own coins + parent PIN
+    if platform:
+        cg = b.new_context(viewport={'width': 1280, 'height': 900})
+        cg.add_init_script(MOCK_SPEECH)          # NOT unlocked: the family PIN must not appear for a guest
+        gp = cg.new_page()
+        gp.on('pageerror', lambda e: errors.append('guest pageerror: ' + str(e)))
+        gp.goto(URL + '?gast=Nuka'); gp.wait_for_timeout(500)
+        check('guest: no family PIN screen', gp.locator('#rb-gate').count() == 0 and gp.is_visible('.home'))
+        check('guest: greets the guest by name', 'Hallo Nuka!' in gp.inner_text('h1'), gp.inner_text('h1'))
+        check('guest: family SDK not loaded, no "Meine Apps"', gp.evaluate("!(window.RB && RB.child)") and not gp.is_visible('#apps-link'))
+        check('guest: Robin is drawn', gp.locator('.hero .robin svg').count() == 1)
+        gp.click('[data-menu=heute]'); gp.wait_for_timeout(300)
+        n = 0
+        for i in range(80):
+            s = step(gp)
+            if not s or gp.locator('.end').count(): break
+            k = answer(gp, s, 'right'); n += 1
+            if k == 'intro': gp.wait_for_timeout(120); continue
+            if k != 'spell' and not (k == 'listen' and not s['skill']): feedback(gp)
+            nxt(gp)
+        gp.wait_for_selector('.end', timeout=5000)
+        coins = int(gp.inner_text('#coins'))
+        check('guest: earns coins on this device', gp.is_visible('#coin-pill') and coins > 5 and '+%d Robin-Münzen' % coins in gp.inner_text('.end'), (coins, n))
+        check('guest: progress stored under the guest', gp.evaluate("!!localStorage.getItem('europa-trainer:gast-nuka') && !localStorage.getItem('europa-trainer:lukas')"))
+        gp.goto(URL); gp.wait_for_timeout(400)
+        check('guest: remembered on the device without the link (home-screen icon)', 'Hallo Nuka!' in gp.inner_text('h1'))
+        gp.goto(URL + '#/eltern'); gp.wait_for_timeout(300)
+        check('guest: own parent PIN asked', gp.locator('.pin-screen').count() == 1 and 'Robin' not in gp.inner_text('.pin-screen'), gp.inner_text('main'))
+        gp.fill('.pin-screen input', '0000'); gp.keyboard.press('Enter'); gp.wait_for_timeout(150)
+        check('guest: wrong parent PIN refused', 'stimmt nicht' in gp.inner_text('.pin-screen'))
+        if os.environ.get('ET_GUEST_PIN'):
+            gp.fill('.pin-screen input', os.environ['ET_GUEST_PIN']); gp.keyboard.press('Enter'); gp.wait_for_timeout(300)
+            check('guest: parent area opens with the guest PIN', gp.locator('.parent').count() == 1 and 'Nuka' in gp.inner_text('.parent'))
+        gp.screenshot(path=OUT + '/e19-guest.png')
+        cg.close()
+
     # ---------------- phone + tablet
     for name, vp in [('phone', {'width': 390, 'height': 844}), ('tablet', {'width': 820, 'height': 1180})]:
         c2 = b.new_context(viewport=vp, has_touch=True, is_mobile=name == 'phone')
