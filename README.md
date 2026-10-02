@@ -81,10 +81,12 @@ Loose coupling, on purpose:
 
 ## Guest link (a classmate)
 
-`…/europa-trainer/?gast=<Name>` runs the app on its own for that child: no Robin's Bobins, no family
-PIN, no "Meine Apps". Progress (`europa-trainer:gast-<name>`) and a coin counter stay on that device;
-the guest is remembered there, so the home-screen icon works without the link. A parent PIN for a
-guest is listed in `js/platform.js` (`GUEST_PINS`) as salted hashes only — no names or PINs in the code.
+A classmate gets a **start page** in Robin's Bobins: `…/robins-bobins/gast/?name=<Name>` (see
+`robins-bobins/shared/guest.js`). Its Europa card opens `…/europa-trainer/?gast=<Name>`: no family page,
+no family PIN; "‹ Start" goes back, coins and practice days go to the guest's own total, the parent
+area uses the guest's PIN (salted hashes in guest.js — no names or PINs in the code). Progress
+(`europa-trainer:gast-<name>`) stays on that device; the guest is remembered there (`rb-gast`), so a
+home-screen icon works without the link. Without guest.js the guest still works, alone on the device.
 Test: `ET_GUEST_PIN=<pin> python3 tests/e2e.py <shots-dir> --with-platform ../robins-bobins`.
 
 Map data: Natural Earth (public domain).

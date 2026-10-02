@@ -8,7 +8,7 @@
   var progress = new ET.Progress(P.childId);
   var main = document.getElementById('main');
   var backBtn = document.getElementById('back'), appsLink = document.getElementById('apps-link');
-  if (P.homeUrl) appsLink.href = P.homeUrl; else appsLink.hidden = true;
+  if (P.homeUrl) { appsLink.href = P.homeUrl; if (P.guest) appsLink.textContent = '‹ Start'; } else appsLink.hidden = true;
   U.useSettings(function () { return progress.settings(); });
 
   var onLeave = null;

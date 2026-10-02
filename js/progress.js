@@ -317,7 +317,7 @@
       var s = self.doc.words[w.key];
       var intro = self.isIntroduced(it);
       var score;
-      if (s && s.miss && !secure(s)) score = 10 + s.miss * 2 - s.box * 2 + (s.due <= now ? 3 : 0);
+      if (s && s.miss && !secure(s)) score = 20 + s.miss * 2 - s.box * 2 + (s.due <= now ? 3 : 0);   // always above words not yet tried (max 6 + 5)
       else if (intro && (!s || !s.n) && w.diff >= 4) score = 6 + w.diff;
       else if (intro && s && !secure(s)) score = 4 - s.box + (s.due <= now ? 2 : 0);
       else if (intro && (!s || !s.n) && w.diff >= 3) score = 3 + w.diff * 0.5;

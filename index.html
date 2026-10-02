@@ -29,19 +29,19 @@
 
 <!-- Robin's Bobins (optional). Same site on GitHub Pages → family PIN, child, Robin, coins, streaks.
      When these files are missing (running on its own), the app works without them.
-     Guest link (?gast=<Name>, for a classmate): the app on its own — no family page, no family PIN;
-     only Robin's picture is borrowed. The guest is remembered on that device (for the home-screen icon);
+     Guest link (?gast=<Name>, for a classmate): no family page, no family PIN; Robin's picture and
+     the guest start page (robins-bobins/shared/guest.js: coins, streak, parent PIN, "‹ Start") are used. The guest is remembered on that device (for the home-screen icon);
      an explicit ?child=… (from Robin's Bobins) always wins. -->
 <script>
 (function () {
   var q = location.search, m = /[?&]gast=([^&#]*)/.exec(q), g = '';
   try {
     g = m ? decodeURIComponent(m[1]).trim() : '';
-    if (g) localStorage.setItem('europa-trainer:gast', g);
-    else if (!/[?&]child=/.test(q)) g = localStorage.getItem('europa-trainer:gast') || '';
+    if (g) localStorage.setItem('rb-gast', JSON.stringify(g));
+    else if (!/[?&]child=/.test(q)) g = JSON.parse(localStorage.getItem('rb-gast') || 'null') || localStorage.getItem('europa-trainer:gast') || '';
   } catch (e) { /* storage blocked: guest only for this visit */ }
   window.ET_GUEST = g || null;
-  if (g) { window.RB = {}; document.write('<script src="../robins-bobins/shared/robin.js"><\/script>'); }
+  if (g) { window.RB = {}; document.write('<script src="../robins-bobins/shared/robin.js"><\/script><script src="../robins-bobins/shared/guest.js"><\/script>'); }
   else document.write('<script src="../robins-bobins/shared/rb.js"><\/script><script src="../robins-bobins/shared/robin.js"><\/script>');
 })();
 </script>
